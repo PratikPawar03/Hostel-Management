@@ -38,12 +38,12 @@ It digitizes and streamlines the management of hostels, buildings, floors, rooms
 ### **Backend**
 - Spring Boot  
 - Spring JPA / Hibernate  
-- MySQL / H2 (as DB)  
+- PostgreSQL  
 - REST APIs  
 
 ---
 
-## 📦 API Overview
+## API Overview
 
 - `/api/hostel` – add + get hostels  
 - `/api/building` – building-related operations  
@@ -51,7 +51,4 @@ It digitizes and streamlines the management of hostels, buildings, floors, rooms
 - `/api/room` – room module  
 - `/api/bed` – bed allocation  
 
----
-
-## 📌 Project Structure
 

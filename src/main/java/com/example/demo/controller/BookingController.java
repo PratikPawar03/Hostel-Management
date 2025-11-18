@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Entity.Booking;
 import com.example.demo.Service.BookingService;
+import com.example.demo.dto.BookingDto;
 
 @RestController
 public class BookingController {
@@ -19,8 +20,8 @@ BookingService bookingService;
 
 
 @PostMapping("booking/{user_id}/{bed_id}")
-ResponseEntity bookBed(@RequestBody Booking booking,@PathVariable int user_id,@PathVariable int bed_id) {
-	bookingService.bookBed(booking, user_id, bed_id);
+ResponseEntity bookBed(@RequestBody BookingDto bookingDto,@PathVariable int user_id,@PathVariable int bed_id) {
+	bookingService.bookBed(bookingDto, user_id, bed_id);
 	return new ResponseEntity(HttpStatus.ACCEPTED);
 }
 

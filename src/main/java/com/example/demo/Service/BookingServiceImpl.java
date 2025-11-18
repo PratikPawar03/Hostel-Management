@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.Entity.Bed;
 import com.example.demo.Entity.Booking;
 import com.example.demo.Entity.User;
+import com.example.demo.dto.BookingDto;
 import com.example.demo.dto.InvoiceDto;
 import com.example.demo.repository.BedRepository;
 import com.example.demo.repository.BookingRepository;
@@ -23,10 +24,24 @@ BedRepository bedRepository;
 UserRepository userRepository;
 
 	@Override
-	public void bookBed(Booking booking, int user_id, int bed_id) {
+	public void bookBed(BookingDto bookingDto, int user_id, int bed_id) {
 		// TODO Auto-generated method stub
+		Booking booking=new Booking();
+		
 		booking.setBed_Id(bed_id);
 		booking.setUser_Id(user_id);
+		booking.setDate(bookingDto.getDate());
+		booking.setTranx_id(bookingDto.getTranx_id());
+		booking.setPaymentSatus(bookingDto.getPaymentStatus());
+		booking.setStaus(bookingDto.getStaus());
+		
+		if(booking.getPaymentSatus().equals("Complete")) {
+			User user=userRepository.findById(user_id).get();
+			user.setBed_id(bed_id);
+			
+			Bed bed=bedRepository.findById(bed_id).get();
+			bed.setStatus("Occupied");
+		}
 		bookingRepository.save(booking);
 	}
 	@Override

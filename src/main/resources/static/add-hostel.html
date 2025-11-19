@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Hostel</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f6f8; margin:0; }
+    .form-container {
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 32px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.09);
+    }
+    h2 { margin-bottom: 28px; color: #222; text-align:center; }
+    label { display:block; margin-top:14px; margin-bottom:4px; font-weight:600;}
+    input, textarea {
+      width:100%;
+      padding:10px;
+      border:1px solid #bbb;
+      border-radius:4px;
+      margin-bottom:10px;
+      font-size: 15px;
+    }
+    button {
+      padding:12px 22px;
+      background:#2d98da;
+      color:#fff;
+      border:none;
+      border-radius:4px;
+      font-size:16px;
+      cursor:pointer;
+      margin-top:8px;
+    }
+    .message { padding:10px; margin-bottom:16px; border-radius:3px;}
+    .error { background: #f7d7da; color:#800823;}
+    .success{ background: #d3f9d8; color:#186b22;}
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Add Hostel</h2>
+    <div id="msg"></div>
+    <form id="hostelForm">
+      <label>Name</label>
+      <input name="name" type="text" required/>
+      <label>Address</label>
+      <input name="address" type="text" required/>
+      <label>Capacity</label>
+      <input name="capacity" type="number" required/>
+      <label>Contact Number</label>
+      <input name="contactNo" type="text" required/>
+      <label>Type</label>
+      <input name="type" type="text" required/>
+      <label>Image URL</label>
+      <input name="image" type="text"/>
+      <label>Website</label>
+      <input name="website" type="text"/>
+      <button type="submit">Add Hostel</button>
+    </form>
+    <button style="background:#7b8fa3; margin-top:18px;" onclick="window.location.href='index.html'">
+      Cancel
+    </button>
+  </div>
+  <script>
+    const hostelForm = document.getElementById('hostelForm');
+    const msgDiv = document.getElementById('msg');
+    hostelForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msgDiv.textContent = '';
+      let formData = new FormData(hostelForm);
+      let dto = {};
+      formData.forEach((v, k) => dto[k] = v);
+
+      try {
+        let response = await fetch('/hostel', {
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dto)
+        });
+        if(response.ok){
+          msgDiv.innerHTML='<div class="message success">Hostel added successfully!</div>';
+          setTimeout(()=>window.location.href='index.html', 1200); // Go back after success
+        } else {
+          let error = await response.text();
+          msgDiv.innerHTML = `<div class="message error">Error: ${error}</div>`;
+        }
+      } catch(err) {
+        msgDiv.innerHTML = `<div class="message error">Request failed.</div>`;
+      }
+    });
+  </script>
+</body>
+</html>

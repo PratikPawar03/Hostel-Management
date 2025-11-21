@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hostel Management Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f6f8; margin: 0; }
+    header { background:#34495e; color:#fff; text-align:center; padding:15px; }
+    .container { display: flex; padding: 20px; }
+    .hostel-list, .hostel-details {
+      background:#fff; border-radius:8px; padding:20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .hostel-list { width: 40%; margin-right: 20px; }
+    .hostel-details { width: 60%; min-height: 120px; }
+    .hostel-item, .sharing-list li {
+      padding: 10px; border-bottom: 1px solid #ddd; cursor: pointer;
+      transition: background 0.3s;
+    }
+    .hostel-item:hover, .sharing-list li:hover { background:#ecf0f1; }
+    .sharing-list { list-style:none; padding:0; margin:0; }
+  </style>
+</head>
+<body>
+  <header><h1>Hostel Management Dashboard</h1></header>
+
+  <div class="container">
+    <div class="hostel-list">
+      <h2>Hostel List</h2>
+      <div id="hostelContainer">Loading...</div>
+    </div>
+    <div class="hostel-details">
+      <h2>Sharing Rooms</h2>
+      <ul id="sharingContainer" class="sharing-list"></ul>
+    </div>
+  </div>
+
+  <script>
+    const hostelContainer = document.getElementById('hostelContainer');
+    const sharingContainer = document.getElementById('sharingContainer');
+    const startSharing = 2;
+
+    async function loadHostels() {
+      try {
+        const response = await fetch('/hostels');
+        const hostels = await response.json();
+        hostelContainer.innerHTML = '';
+        hostels.forEach(h => {
+          const div = document.createElement('div');
+          div.className = 'hostel-item';
+          div.textContent = `${h.name} (ID: ${h.id})`;
+          div.addEventListener('click', () => loadSharing(h.id));
+          hostelContainer.appendChild(div);
+        });
+      } catch {
+        hostelContainer.textContent = 'Error loading hostels!';
+      }
+    }
+
+    async function loadSharing(hostelId) {
+      sharingContainer.innerHTML = 'Loading...';
+      try {
+        const response = await fetch(`/hostel/sharing/${hostelId}`);
+        const sharingData = await response.json();
+        sharingContainer.innerHTML = '';
+        if (!sharingData.length) {
+          sharingContainer.innerHTML = '<li>No sharing rooms available</li>';
+          return;
+        }
+        sharingData.forEach((available, i) => {
+          const sharing = i + startSharing;
+          const li = document.createElement('li');
+          li.textContent = `${sharing} sharing room`;
+          li.style.cursor = 'pointer';
+          li.onclick = () => {
+            window.location.href = `bed-details.html?sharing=${sharing}&hostel_id=${hostelId}`;
+          };
+          sharingContainer.appendChild(li);
+        });
+      } catch {
+        sharingContainer.textContent = 'Failed to load sharing rooms!';
+      }
+    }
+
+    loadHostels();
+  </script>
+</body>
+</html>

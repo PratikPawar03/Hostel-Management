@@ -11,8 +11,7 @@ import com.example.demo.Entity.Hostel;
 public interface HostelRepository extends JpaRepository<Hostel, Integer> {
 
 	@Query(value = """
-		    SELECT h.name AS hostel_name, bed.bed_no, bed.status, bed.price
-		    FROM hostel h
+		    SELECT h.name AS hostel_name, bed.bed_no, bed.status, bed.price FROM hostel h
 		    JOIN building b ON b.hostel_id = h.id
 		    JOIN floor f ON f.building_id = b.id
 		    JOIN room r ON r.floor_id = f.id

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Vacant Beds</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f6f8; margin:0; }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 28px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h2 { text-align:center; margin-bottom:8px; }
+    #sharingInfo {
+      text-align:center;
+      font-weight:bold;
+      margin-bottom:16px;
+      font-size:18px;
+      color: #2d98da;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fbfbfd;
+    }
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #dee2e6;
+      text-align: left;
+    }
+    th { background: #eff2f4; }
+    .back-btn {
+      display: block;
+      margin: 22px auto 0 auto;
+      padding: 10px 16px;
+      background: #666;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 15px;
+      cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Vacant Beds</h2>
+    <div id="sharingInfo"></div>
+    <table id="bedTable">
+      <thead>
+        <tr>
+          <th>Room No</th>
+          <th>Bed No</th>
+          <th>Floor No</th>
+          <th>Building No</th>
+          <th>Hostel Name</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <button class="back-btn" onclick="history.back()">Back</button>
+  </div>
+
+  <script>
+    function getQueryParams() {
+      const params = {};
+      window.location.search.substring(1).split('&').forEach(part => {
+        const [key, value] = part.split('=');
+        params[decodeURIComponent(key)] = decodeURIComponent(value);
+      });
+      return params;
+    }
+
+    const params = getQueryParams();
+    document.getElementById('sharingInfo').textContent = `${params.sharing} Sharing Room Vacancies`;
+
+    async function loadBeds() {
+      try {
+        const response = await fetch(`/bed/${params.sharing}/${params.hostel_id}`);
+        const tbody = document.querySelector('#bedTable tbody');
+        if (response.ok) {
+          const beds = await response.json();
+          tbody.innerHTML = '';
+          if (!beds.length) {
+            tbody.innerHTML = '<tr><td colspan="5">No vacant beds found.</td></tr>';
+            return;
+          }
+          beds.forEach(bed => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td>${bed.roomNo}</td>
+              <td>${bed.bedNo}</td>
+              <td>${bed.floorNo}</td>
+              <td>${bed.buildingNo}</td>
+              <td>${bed.hostelName}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        } else {
+          document.getElementById('bedTable').outerHTML = '<div>Error fetching vacant beds.</div>';
+        }
+      } catch {
+        document.getElementById('bedTable').outerHTML = '<div>Failed to load beds.</div>';
+      }
+    }
+    loadBeds();
+  </script>
+</body>
+</html>

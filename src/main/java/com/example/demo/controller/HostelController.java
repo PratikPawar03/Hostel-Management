@@ -41,5 +41,11 @@ HostelService hostelService;
 	public ResponseEntity getAllHostels() {
 		return new ResponseEntity(hostelService.getAllHostel(),HttpStatus.ACCEPTED);
 	}
+	
+	@GetMapping("hostel/sharing/{hostel_id}")
+	public ResponseEntity getSharingType(@PathVariable int hostel_id) {
+		
+		return new ResponseEntity(hostelService.getSharingTypes(hostel_id),HttpStatus.ACCEPTED);
+	}
 
 }

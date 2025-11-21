@@ -12,7 +12,6 @@ import com.example.demo.dto.BedDto;
 public interface BedRepository extends JpaRepository<Bed, Integer> {
 
 	//List<Bed> getVaccantBeds(String status);
-	//@Query("SELECT b FROM Bed b  WHERE b.room.sharing = :sharing AND b.room.hostel.id = :hostelId AND b.status = 'Available'")
-//	List<Bed> findVaccantBedbySharingAnndHostel(@Param("sharing") int sharing, 
-//            @Param("hostel_Id") int hostel_Id);
+	@Query("SELECT b FROM Bed b  WHERE b.room.sharing = :sharing  AND b.room.floor.building.hostel.id = :hostel_Id AND b.status = 'Available'")
+	List<Bed> findVaccantBedbySharingAnndHostel(@Param("sharing") int sharing, @Param("hostel_Id") int hostel_Id);
 }

@@ -1,9 +1,12 @@
 package com.example.demo.Entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Booking {
@@ -11,8 +14,14 @@ public class Booking {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private int user_Id;
-	private int bed_Id;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="user_id", referencedColumnName = "id")
+	private User user;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "bed_id", referencedColumnName = "id")
+	private Bed bed;
 	private int tranx_id;
 	private String staus;
 	private String date;
@@ -23,17 +32,18 @@ public class Booking {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getUser_Id() {
-		return user_Id;
+	
+	public User getUser() {
+		return user;
 	}
-	public void setUser_Id(int user_Id) {
-		this.user_Id = user_Id;
+	public void setUser(User user) {
+		this.user = user;
 	}
-	public int getBed_Id() {
-		return bed_Id;
+	public Bed getBed() {
+		return bed;
 	}
-	public void setBed_Id(int bed_Id) {
-		this.bed_Id = bed_Id;
+	public void setBed(Bed bed) {
+		this.bed = bed;
 	}
 	public int getTranx_id() {
 		return tranx_id;

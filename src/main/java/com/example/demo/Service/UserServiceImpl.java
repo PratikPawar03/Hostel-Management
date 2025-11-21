@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.Entity.User;
+import com.example.demo.dto.UserDto;
 import com.example.demo.repository.UserRepository;
 
 @Service
@@ -12,8 +13,12 @@ public class UserServiceImpl implements UserService {
 UserRepository userRepository;
 	
 	@Override
-	public void addUser(User user) {
+	public void addUser(UserDto userDto) {
 		// TODO Auto-generated method stub
+		User user=new User();
+		user.setAge(userDto.getAge());
+		user.setGender(userDto.getGender());
+		user.setName(userDto.getName());
 		userRepository.save(user);
 	}
 

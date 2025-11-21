@@ -1,9 +1,12 @@
 package com.example.demo.Entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,13 +19,21 @@ public class User {
 	private String name;
 	private String age;
 	private String gender;
-	private int bed_id;
 	
-	public int getBed_id() {
-		return bed_id;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="bed_id", referencedColumnName = "id")
+	private Bed bed;
+	
+	@OneToOne(mappedBy = "user")
+	private Booking booking;
+
+	
+	public Bed getBed() {
+		return bed;
 	}
-	public void setBed_id(int bed_id) {
-		this.bed_id = bed_id;
+	public void setBed(Bed bed) {
+		this.bed = bed;
+
 	}
 	public int getId() {
 		return id;

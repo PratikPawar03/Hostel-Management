@@ -34,6 +34,7 @@ RoomRespository roomRespository;
 		r.setSharing(r.getSharing()+1);
 		b.setRoom(r);
 		b.setStatus("Available");
+		b.setPrice(addBedDto.getPrice());
 		bedRepository.save(b);
 	}
 
@@ -60,28 +61,28 @@ RoomRespository roomRespository;
 		return vaccantBeds;
 	}
 
-//	@Override
-//	public List<BedDto> findVaccantBedbySharingAnndHostel(int sharing, int hostel_id) {
-//		// TODO Auto-generated method stub
-//		List<Bed>  bedList= bedRepository.findVaccantBedbySharingAnndHostel(sharing, hostel_id);
-//		List<BedDto> vaccantBeds=new ArrayList<>();
-//
-//		for(Bed b:bedList) {
-//				BedDto bedDto=new BedDto();
-//				Room room=b.getRoom();
-//				Floor floor=room.getFloor();
-//				Building building=floor.getBuilding();
-//				bedDto.setBedNo(b.getBedNo());
-//				bedDto.setRoomNo(room.getRoomNo());
-//				bedDto.setFloorNo(floor.getFloorNo());
-//				bedDto.setBuildingNo(building.getBuildingNo());
-//				bedDto.setHostelName(building.getHostel().getName());
-//				vaccantBeds.add(bedDto);
-//				}
-//			
-//		
-//		return vaccantBeds;
-//	}
+	@Override
+	public List<BedDto> findVaccantBedbySharingAnndHostel(int sharing, int hostel_id) {
+		// TODO Auto-generated method stub
+		List<Bed>  bedList= bedRepository.findVaccantBedbySharingAnndHostel(sharing, hostel_id);
+		List<BedDto> vaccantBeds=new ArrayList<>();
+
+		for(Bed b:bedList) {
+				BedDto bedDto=new BedDto();
+				Room room=b.getRoom();
+				Floor floor=room.getFloor();
+				Building building=floor.getBuilding();
+				bedDto.setBedNo(b.getBedNo());
+				bedDto.setRoomNo(room.getRoomNo());
+				bedDto.setFloorNo(floor.getFloorNo());
+				bedDto.setBuildingNo(building.getBuildingNo());
+				bedDto.setHostelName(building.getHostel().getName());
+				vaccantBeds.add(bedDto);
+				}
+			
+		
+		return vaccantBeds;
+	}
 
 
 

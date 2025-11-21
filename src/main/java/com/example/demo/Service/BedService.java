@@ -10,6 +10,6 @@ public interface BedService {
 void addBed(AddBedDto addBedDto);
 List<BedDto> findVaccantBeds(String status);
 
-//List<BedDto> findVaccantBedbySharingAnndHostel(int sharing,int hostel_id);
+List<BedDto> findVaccantBedbySharingAnndHostel(int sharing,int hostel_id);
 
 }

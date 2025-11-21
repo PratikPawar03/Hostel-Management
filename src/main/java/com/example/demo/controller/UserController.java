@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 import com.example.demo.Service.UserServiceImpl;
+import com.example.demo.dto.UserDto;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +22,8 @@ public class UserController {
 
 	
 	@PostMapping("user")
-	ResponseEntity addUser(@RequestBody User user){
-		userService.addUser(user);
+	ResponseEntity addUser(@RequestBody UserDto userDto){
+		userService.addUser(userDto);
 		return new ResponseEntity(HttpStatus.ACCEPTED);
 	}
 	

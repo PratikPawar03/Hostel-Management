@@ -35,10 +35,10 @@ public class BedController {
 		
 	}
 	
-//	@GetMapping("bed/{sharing/hostel_id}")
-//	ResponseEntity getVaccantBedBySharingAndHostel(int sharing, int hostel_id) {
-//		return new ResponseEntity(bedService.findVaccantBedbySharingAnndHostel(sharing, hostel_id), HttpStatus.ACCEPTED);
-//	}
+	@GetMapping("bed/{sharing}/{hostel_id}")
+	ResponseEntity getVaccantBedBySharingAndHostel(@PathVariable int sharing,@PathVariable int hostel_id) {
+		return new ResponseEntity(bedService.findVaccantBedbySharingAnndHostel(sharing, hostel_id), HttpStatus.ACCEPTED);
+	}
 	
 	
 }

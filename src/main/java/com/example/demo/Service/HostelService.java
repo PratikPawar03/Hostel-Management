@@ -12,4 +12,5 @@ void addHostel(HostelDto hostelDto);
 //List getRoomDetailsByHostel(@Param("hostelId") int hostelId);
 List<Object[]> getOccupiedBedsWithHostel();
 List<Hostel> getAllHostel();
+List<Integer> getSharingTypes(@Param("hostelId") int hostelId);
 }
